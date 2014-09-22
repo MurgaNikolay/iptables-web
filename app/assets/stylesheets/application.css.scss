@@ -1,0 +1,145 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+ *= require_self
+ *= require_tree .
+ */
+
+@import "bootstrap";
+
+body {
+  font: Tahoma, "Times New Roman", Times, serif;
+}
+.profile-info img {
+    margin: 0 10px;
+}
+
+.profile-info {
+  font-size: 11px;
+}
+
+.clear_small {
+    height: 5px;
+    overflow: hidden;
+    clear: both;
+}
+
+.clear_medium {
+    height: 10px;
+    overflow: hidden;
+    clear: both;
+}
+
+.clear_big {
+    height: 15px;
+    overflow: hidden;
+    clear: both;
+}
+
+.clear_xbig {
+    height: 20px;
+    overflow: hidden;
+    clear: both;
+}
+
+
+div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
+    width: 300px;
+    color:#c09853;
+    border: 1px solid #fbeed5;
+    background:#fcf8e3;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+}
+
+
+div.jGrowl div.jGrowl-closer {
+    color: #b4b4b4;
+    border: 1px solid #e6e6e6;
+    background: #f2f2f2;
+}
+
+div.jGrowl .jGrowl-notification.error {
+    color: #b94a48;
+    border-color: #eed3d7;
+    background-color: #f2dede;
+}
+
+div.jGrowl .jGrowl-notification.success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+}
+
+div.jGrowl .jGrowl-notification.info {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    color: #3a87ad;
+}
+
+input.invalid {
+    border: 1px solid red !important;
+}
+/*input.ng-valid {*/
+    /*border: 1px solid green !important;*/
+/*}*/
+
+.access .table > thead > tr > th,
+.access .table > thead > tr > td,
+.access .table > tbody > tr > th,
+.access .table > tbody > tr > td,
+.access .table > tfoot > tr > th,
+.access .table > tfoot > tr > td
+{
+  padding: 1px 8px;
+}
+
+.form-control {
+  height: 24px;
+  padding: 1px 4px;
+}
+
+.form-control.small {
+  width: 150px;
+}
+
+.form-control.v-small {
+  width:50px;
+}
+
+.container {
+  min-width: 800px;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.row-inner {
+ /* padding-left: 8px; */
+  padding-right: 8px;
+}
+
+.dn {
+  display: none;
+}
+
+.securty_groups table{
+  margin-bottom: 0;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+
+

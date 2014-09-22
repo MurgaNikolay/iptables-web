@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="application">
+<head>
+    <meta charset="utf-8">
+    <title>Access page</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+<body>
+<div class="container">
+    <div class="clear_medium"></div>
+    <%= render partial: 'layouts/messages' %>
+    <div id="access"></div>
+    <%= yield %>
+</div>
+</body>
+</html>
+

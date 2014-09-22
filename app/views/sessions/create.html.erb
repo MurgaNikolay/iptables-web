@@ -1,0 +1,7 @@
+<script type="text/javascript" charset="utf-8">
+    var opener = window.opener
+    controller = opener.Access.__container__.lookup('route:application');
+    console.log(controller)
+    controller.send('authenticate', {user: <%=@user.to_json.html_safe %>});
+    window.close()
+</script>

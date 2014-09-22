@@ -1,0 +1,23 @@
+<h2>Groups</h2>
+<table class="table table-hover">
+    <tr>
+        <th class="col-md-1">ID</th>
+        <th class="col-md-10">Group Name</th>
+        <th class="col-md-1">
+            <a {{action "add"}} href="#" title="Create security group" class="glyphicon glyphicon-plus"></a>
+        </th>
+    </tr>
+    {{#each group in controller}}
+        <tr>
+        {{#link-to 'groups.group' group tagName="tr" class="clickable"}}
+            <td>{{group.id}}</td>
+            <td>{{group.name}}</td>
+            <td>
+                <a {{action "delete" group}} href="#" title="Delete group" class="glyphicon glyphicon-remove"></a>
+            </td>
+        {{/link-to}}
+    {{else}}
+        <li class="no-nodes-yet">no groups… :(</li>
+    {{/each}}
+</table>
+

@@ -1,0 +1,20 @@
+    <td></td>
+    <td>
+        {{view Ember.Select content=protocols
+        optionValuePath="content.id"
+        optionLabelPath="content.label"
+        selectionBinding='rule_protocol'}}
+    </td>
+    <td>
+        {{input type="text" value=rule_ip class="form-control small ip_address"}}
+    </td>
+    <td>
+        {{input type="text" class="form-control v-small" size="6" value=rule_port}}
+    </td>
+    <td>
+        {{input type="text" class="form-control" value=rule_description}}
+    </td>
+    <td>
+        <a href="#" {{action 'createRule'}} class="glyphicon glyphicon-ok" title="Add rule"></a>
+        <a href="#" {{action 'cancelRule'}} class="glyphicon glyphicon-remove" title="Cancel"></a>
+    </td>

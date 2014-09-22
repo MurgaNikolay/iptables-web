@@ -1,0 +1,48 @@
+<h2>Node {{hostname}}</h2>
+<br>
+<table class="table table-bordered">
+    <tr>
+        <td>Hostname</td>
+        <td>{{hostname}}</td>
+    </tr>
+    <tr>
+        <td>Access token</td>
+        <td><code>{{token}}</code> {{#link-to 'nodes.install' model }}How to install?{{/link-to}} </td>
+    </tr>
+    <tr>
+        <td>Description</td>
+        <td>{{description}}</td>
+    </tr>
+    <tr>
+        <td>Last connected at</td>
+        <td>
+            {{#if lastAccess}}
+                {{date-format value=lastAccess format="LL"}}
+            {{else}}
+                <span class="text-danger">No access</span>
+            {{/if}}
+        </td>
+    </tr>
+</table>
+
+<h4>Access rules:</h4>
+{{view Access.AccessRulesView}}
+<hr>
+<div class="row">
+    <div class="row-inner">
+        <div class="col-sm-6"><h4>Access rules from groups:</h4></div>
+        <div class="col-sm-6 text-right form-inline">
+            {{#if searchGroup}}
+                {{jquery-autocomplete source=controller.findGroup action="saveGroup"}}
+                <a {{action "saveGroup"}} href="#" title="Add new group" class="glyphicon glyphicon-ok"></a>
+                <a {{action "closeSearchGroup"}} href="#" title="Cancel" class="glyphicon glyphicon-remove"></a>
+            {{else}}
+                <a {{action "searchGroup"}} href="#" title="Add new group" class="glyphicon glyphicon-plus"></a>
+            {{/if}}
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="securty_groups">
+{{view Access.NodeGroupsView}}
+</div>

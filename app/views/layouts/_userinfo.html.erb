@@ -1,0 +1,21 @@
+<% if current_user %>
+    <div class="row">
+        <div class="span4 offset8 ">
+            <div class="profile-info">
+                <div class="pull-right">
+                    <a href="<%= current_user.profile %>">
+                        <strong><%= current_user.email %></strong>
+                        <br>
+                        <%= current_user.email %>
+                    </a><br>
+                    <a href="/logout">Sign out</a>
+                </div>
+                <a href="<%= current_user.profile %>">
+                    <img class="pull-right img-polaroid" src="<%=current_user.image %>">
+                </a>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <div class="clear_medium"></div>
+<% end %>

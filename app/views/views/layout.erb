@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="application">
+<head>
+    <meta charset="utf-8">
+    <title>Access page</title>
+    <%= bootstrap_assets %>
+    <script type="text/javascript" src="/assets/application.js"></script>
+    <link rel="stylesheet" href="/assets/application.css"/>
+<body>
+<br>
+<div class="container">
+    <div class="container">
+        <div id="access"></div>
+        <% if authorized? %>
+            <div class="row">
+                <div class="span4 offset8 ">
+                    <div class="profile-info">
+                        <div class="fr">
+                            <a href="<%= user_profile['url'] %>">
+                                <strong><%= user_profile['displayName'] %></strong>
+                                <br>
+                                <%= user_profile['emails'].first['value'] %>
+                            </a><br>
+                            <a href="<%= url('/logout') %>">Sign out</a>
+                        </div>
+                        <a href="<%= user_profile['url'] %>">
+                            <img class="fr img-polaroid" src="<%= user_profile['image']['url'] %>">
+                        </a>
+
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        <% end %>
+        <%=partial 'partials/messages'.to_sym%>
+        <div class="clear_medium"></div>
+        <%= yield %>
+    </div>
+</div>
+</body>
+</html>
