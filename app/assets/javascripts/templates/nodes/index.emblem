@@ -1,0 +1,57 @@
+h2 Nodes
+table.table.table-hover
+  tbody
+    tr
+      th ID
+      th.col-md-2 Name
+      th.col-md-3 Description
+      th Hostname
+      th Ips
+      th style="width:100px"
+        a.glyphicon.glyphicon-plus click="createNode" href="#" title="Register new node"
+
+    each node in controller
+      tr
+        if node.editMode
+          td
+            node.id
+          td = input enter="saveNode" class="form-control" type="text" value=node.name
+          td = input enter="saveNode" class="form-control" type="text" value=node.description
+          td = node.hostname
+          td = node.ips
+          td
+            a.glyphicon.glyphicon-ok href="#" click="saveNode" title="Save Group"
+            a.glyphicon.glyphicon-remove href="#" click="cancelNode" title="Cancel"
+        else
+          link-to 'nodes.node' node tagName="td" class="clickable"
+            node.id
+          link-to 'nodes.node' node tagName="td" class="clickable"
+            node.name
+          link-to 'nodes.node' node tagName="td" class="clickable"
+            node.description
+          link-to 'nodes.node' node tagName="td" class="clickable"
+            node.hostname
+          link-to 'nodes.node' node tagName="td" class="clickable"
+            node.ips
+          td
+            a.glyphicon.glyphicon-edit click="editNode node" href="#" title="Edit node name"
+            a.glyphicon.glyphicon-remove click="deleteNode node" href="#" title="Delete node name"
+    else
+      tr
+        td.no-nodes-yet colspan="5"
+          | no nodes… :(
+    if createMode
+      tr
+        td
+        td
+          input enter="saveNode" class="form-control" value=nodeName type="text"
+        td
+          input enter="saveNode" class="form-control" value=nodeDescription type="text"
+        td colspan="2"
+        td
+          a.glyphicon.glyphicon-ok href="#" click="saveNode" title="Add node"
+          a.glyphicon.glyphicon-remove href="#" click="cancelNode" title="Cancel"
+
+if modelForDelete
+  modal-confirm ok="confirmOk" close="confirmClose" title="Delete node"
+    | You want to delete node  "#{modelForDelete.id}:#{modelForDelete.name}". Are you sure?

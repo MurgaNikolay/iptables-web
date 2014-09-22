@@ -1,0 +1,2 @@
+modal-confirm ok="confirmDelete" close="deleteCancel" title="Delete rule"
+  | You want to delete rule  "#{id}:#{ip}". Are you sure?

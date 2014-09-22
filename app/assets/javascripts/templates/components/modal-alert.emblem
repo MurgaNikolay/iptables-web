@@ -1,0 +1,16 @@
+.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close type="button" click="close"
+          span aria-hidden="true"
+          | &times
+          span.sr-only Close
+        h4.modal-title = title
+      .modal-body
+        p = body
+      .modal-footer
+        button.btn.btn-default type="button" click="close" No
+        button.btn.btn-primary type="button" click="ok" Yes
+
+//.modal-backdrop.fade

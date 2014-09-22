@@ -1,0 +1,14 @@
+/ link-to????
+h2 Install node #{link-to hostname 'nodes.node' controller.content}
+h2 Automatic installation
+ol
+  li Install gem <kbd>gem install node-access</kbd>
+  li Run <kbd>node-access install</kbd>
+h2 Manual installation
+ol 
+  li Install gem <kbd>gem install node-access</kbd>
+  li Create file: <kbd>mkdir ~/.node-access && nano ~/.node-access/crontab.sh</kbd> 
+  li Add <kbd>node-access #{token}</kbd> and save file
+  li Run <kbd>crontab -e</kbd>, pasting the line below into your Crontab file:
+    <br>
+    <kbd>* * * * * bash -l -c '$HOME/.node-access/crontab.sh'</kbd>

@@ -1,58 +1,93 @@
 # require 'activerecord-import'
 require 'mixin/country'
 class AccessRule < ActiveRecord::Base
-  has_and_belongs_to_many :nodes
-  has_and_belongs_to_many :security_groups
-
-  # validates :ip, uniqueness: true
   extend Mixin::Country
-  class << self
-    def create_by_params(params)
-      errors = false
-      begin
-        addresses = Resolv.getaddresses(params[:ip])
-      end
-      puts addresses.size
-      return {ip: ['is not valid']} if addresses.size == 0
-      params[:hostname] = params[:ip] unless is_ip?(params[:ip])
-      addresses.each do |address|
-        access_list = AccessList.new
-        access_list.hostname = params[:hostname]
-        access_list.ip = address
-        access_list.country = country(address)
-        access_list.hostname = params[:hostname]
-        access_list.client_ip = params[:request].remote_ip
-        access_list.client_country = country(params[:request].remote_ip)
-        access_list.user_id = params[:user].id
-        access_list.zone_id = params[:zone_id]
-        # access_list.group_id = ''
-        unless access_list.valid?
-          errors ||= {}
-          errors.merge! access_list.errors
-          next
-        end
-        access_list.save!
-      end
-      errors
+  belongs_to :access_rulable, polymorphic: true
+  # attr_accessor :port
+  validates_presence_of :ip
+  validates_inclusion_of :protocol, in: %w(all udp tcp icmp), message: 'valid values ​​are: all, udp, tcp, icmp'
+  validate :ip_or_hostname
+  validate :validate_port
+
+  PORTS = {
+    https: 443,
+    http: 80,
+    ssh: 22,
+    smtps: 465,
+    smtp: 25,
+    imaps: 993,
+    imap: 143,
+    pop3s: 995,
+    pop3: 110,
+    elasticsearch: 9200,
+    mongodb: 27017,
+    pptp: 1723,
+    openvpn: 1194,
+    mysql: 3306,
+    postgresql: 5432,
+    beanstalkd: 11300,
+    memcache: 11211,
+    dns: 53
+  }
+
+  def port=(value)
+    PORTS.each do |service, port|
+      value.gsub!(service.to_s, port.to_s)
     end
-
-    def is_ip?(ip)
-      !!IPAddr.new(ip)
-    rescue
-      false
-    end
-
-
+    super(value)
   end
 
-  def to_log
-    log = []
-    log << "IP: #{ip}"
-    log << "IP country: #{country}"
-    log << "Hostname: #{hostname}"
-    log << "Client IP: #{client_email}"
-    log << "Client email: #{client_email}"
-    log << "Client country: #{client_country}"
-    log.join(',')
+  def validate_port
+    return if port.to_s.empty?
+    ports = port.to_s.split(/,|:/)
+    ports.all? do |port|
+      port = PORTS[port.to_sym] if PORTS[port.to_sym]
+      errors.add(:port, "Port #{port} must be in range 0..65535") unless port.to_i >= 0 && port.to_i <= 65535
+      port.to_s.match('[0-9]')
+    end || errors.add(:port, 'Port must be a number')
+
+    errors.add(:port, 'Maximum number of ports can not be more than 15') if ports.size > 15
+  end
+
+  def ip_or_hostname
+    return if ip.to_s.empty?
+    ip_and_mask = ip.split('/')
+    #chek ip format
+
+    if Resolv::IPv4::Regex.match(ip_and_mask.first) || ip_and_mask.size > 2
+      if ip_and_mask.size == 2 && !(0..32).include?(ip_and_mask.last.to_i)
+        errors.add(:ip, 'Wrong subnet mask')
+      else
+        return true
+      end
+    end
+
+    #try to find Node
+    if Node.find_by(name: ip)
+      errors.delete(:ip)
+      return true
+    end
+
+    cant_resolve = false
+    begin
+      addresses = Resolv.getaddresses(ip)
+      cant_resolve = true unless addresses.size > 0
+    rescue
+      cant_resolve = true
+    end
+
+    if cant_resolve
+      errors.add(:ip, "Can't resolve ip by name #{ip}")
+    else
+      errors.delete(:ip)
+    end
+  end
+
+  def resolved_ips
+    ip_and_mask = ip.split('/')
+    return [ip] if Resolv::IPv4::Regex.match(ip_and_mask.first)
+    node = Node.find_by(name: ip)
+    return node.ips.map(&:ip) if node && node.ips.size > 0
+    Resolv.getaddresses(ip)
   end
 end

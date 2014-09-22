@@ -2,6 +2,7 @@
 #= require jquery-ui
 #= require handlebars
 #= require ember
+#= require bootstrap
 #= require ember-data
 #= require_tree ./lib
 #= require_self
@@ -11,6 +12,6 @@
 window.Access = Ember.Application.create(
   LOG_TRANSITIONS: true,
   LOG_TRANSITIONS_INTERNAL: true,
-  rootElement: '#access'
+  rootElement: '#access_application'
 )
 

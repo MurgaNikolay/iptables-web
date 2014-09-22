@@ -2,7 +2,6 @@ class SecurityGroupsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    puts params
     if params[:term]
       query = SecurityGroup.where('name LIKE ?', "#{params[:term]}%")
       if params[:node]
@@ -16,11 +15,13 @@ class SecurityGroupsController < ApplicationController
       end
       render json: query.map(&:attributes)
     else
-      render json: SecurityGroup.all
+      render json: context.all
     end
   end
 
   def show
+    puts '---------------------'
+    puts SecurityGroup.find(params[:id]).access_rules.inspect
     render json: SecurityGroup.find(params[:id])
   end
 
@@ -37,29 +38,15 @@ class SecurityGroupsController < ApplicationController
 
   def create
     group = SecurityGroup.new(create_params)
-    # redirect_to rule
     if group.save
-       redirect_to access_rule_url(group)
+       redirect_to security_group_url(group)
     end
-    # else
-    #   This line overrides the default rendering behavior, which
-    #   would have been to render the "create" view.
-      # render json: {errors: 'error'}, status: 400
-    # end
-
-
-    # result = AccessRule.create_by_params(params.merge({user: current_user, request: request}))
-    # if result.is_a?(Hash)
-    #   render json: {errors: result}, status: 400
-    # else
-    #   render json: {ok: '1'}, status: 200
-    # end
   end
 
   def update
     group = SecurityGroup.find(params[:id])
     return render :status => 404 unless group
-    update_params[:access_rules].each do |access_rule|
+    access_rules.each do |access_rule|
       if access_rule[:id]
         rule = group.access_rules.find(access_rule[:id])
         rule.update(access_rule)
@@ -67,8 +54,8 @@ class SecurityGroupsController < ApplicationController
       else
         group.access_rules.build(access_rule)
       end
-    end if update_params[:access_rules]
-
+    end if access_rules
+    group.assign_attributes(update_params)
     if group.save
       head :no_content, status: 400
     else
@@ -81,10 +68,22 @@ class SecurityGroupsController < ApplicationController
     params.require(:security_group).permit(:name)
   end
 
-  private
-  def update_params
-    params.require(:security_group).permit(:id, :hostname, :access_rules => [
-        :id, :port, :ip, :protocol, :description
-    ])
+  def access_rules
+    access_rules = params.require(:security_group).permit(access_rules: [:id, :port, :ip, :protocol, :description])
+    access_rules[:access_rules]
   end
+
+  def update_params
+    params.require(:security_group).permit(:id, :name)
+  end
+
+  def context
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        return @context ||= $1.classify.constantize.find(value).security_groups
+      end
+    end
+    Node
+  end
+
 end

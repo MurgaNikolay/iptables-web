@@ -1,0 +1,15 @@
+h2 Group "#{name}"
+render "AccessRules" accessRules
+
+
+| Assigned to nodes:
+
+ul.separated-list.inline-list
+  each node in nodes
+    li
+      | &nbsp;
+      link-to 'nodes.node' node
+        if node.hostname
+          = node.hostname
+        else
+          = node.hostname

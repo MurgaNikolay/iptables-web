@@ -1,0 +1,31 @@
+.row
+  .row-inner
+    .col-sm-6
+      h4
+        = view.title
+    .col-sm-6.form-inline
+      .controls.text-right
+        if searchGroup
+          jquery-autocomplete source=controller.groupAutocomplete action="saveGroup" class="form-control input-sm"
+          a.glyphicon.glyphicon-ok click="saveGroup" href="#" title="Add new group"
+          a.glyphicon.glyphicon-remove click="closeSearchGroup" href="#" title="Cancel"
+        else
+          a.glyphicon.glyphicon-plus click="searchGroup" href="#" title="Add new group"
+
+    .clearfix
+    .securty_groups.col-sm-12
+      each group in model
+        .row
+          .row-inner
+            .col-sm-10
+              h5
+                link-to "groups.group" group
+                  = group.name
+            .col-sm-2
+              .controls.text-right
+                a.glyphicon.glyphicon-minus click="deleteGroup group" href="#" title="Detach group"
+        render "AccessRules" group.accessRules readOnly=true
+      else
+        | Groups not found!
+br
+br

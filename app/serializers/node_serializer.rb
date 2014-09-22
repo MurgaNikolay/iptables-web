@@ -1,6 +1,16 @@
 class NodeSerializer < ActiveModel::Serializer
+  include Rails.application.routes.url_helpers
   embed :ids, include: true
-  attributes :id, :hostname, :description, :ips, :created_at,:updated_at, :token
-  has_many :access_rules
-  has_many :security_groups
+  attributes :id, :name, :hostname, :description, :ips, :created_at, :updated_at, :last_access, :token, :links
+
+  def links
+    {
+      :access_rules =>  node_access_rules_path(object),
+      :security_groups =>  node_security_groups_path(object)
+    }
+  end
+
+  def ips
+    object.ips.map(&:ip)
+  end
 end

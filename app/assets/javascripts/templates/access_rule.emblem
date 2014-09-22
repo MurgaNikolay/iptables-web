@@ -1,0 +1,25 @@
+unless isEditing
+  unless view.isReadOnly
+    td
+      = input class='rule_action' type='checkbox' checked=checked
+  td
+    = id
+  td = protocol
+  td = ip
+  td = port
+  td = description
+  td
+    span.pull-right.ajax_loader
+else
+  td = input class='rule_action' type='checkbox' checked=checked
+  td = id
+  td class={ errors.protocol:has-error }
+    Ember.Select content=protocols optionValuePath="content.value" optionLabelPath="content.label" value=protocol name='protocol' class="form-control"
+  td class={ errors.ip:has-error }
+    jquery-autocomplete class="form-control" source=controller.nodeAutocomplete value=ip name='ip' placeholder='Ip, hostname or node name' enter='save'
+  td class={ errors.port:has-error }
+    = input class='form-control' type='text' value=port enter='save' name='port'
+  td class={ errors.description:has-error }
+    = input class='form-control' type='text' value=description enter='save' name='description'
+  td
+    span.pull-right.ajax_loader

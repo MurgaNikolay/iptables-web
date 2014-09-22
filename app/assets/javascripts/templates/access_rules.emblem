@@ -1,0 +1,54 @@
+unless view.isReadOnly
+  .btn-group.input-group
+    span.input-group-addon
+      = input type='checkbox' checked=isChecked indeterminate=isSemiSelected
+    button.btn.btn-primary type="button" click="add" title="Add new rule"
+      span.glyphicon.glyphicon-plus.control
+      |  add
+    if isEditing
+
+      button.btn.btn-default.rules_groups_actions type="button" click="saveEdit" disabled=isNotSelected
+        span.glyphicon.glyphicon-ok
+        |  save
+
+      button.btn.btn-default.rules_groups_actions type="button" click="cancelEdit"
+        span.glyphicon.glyphicon-remove
+        |  cancel
+    else
+      button.btn.btn-default.rules_groups_actions type="button" title="Edit selected rules" click="edit" disabled=isNotSelected
+        span.glyphicon.glyphicon-edit
+        |  edit
+    button.btn.btn-default.rules_groups_actions type="button" disabled=isRemoveDisabled click="deleteSelected"
+      span.glyphicon.glyphicon-minus
+      |  remove
+
+  br
+.panel.panel-default
+  table.table.table-striped.table-hover.form-horizontal.access-rules-form
+    tbody
+      tr
+        unless view.isReadOnly
+          th.col-sm-1
+        th.col-sm-1 ID
+        th.col-sm-1 Protocol
+        th.col-sm-2 Ip
+        th.col-sm-2 Port
+        th.col-sm-4 Description
+        th.col-sm-1
+      each
+        view "accessRule"
+      else
+        tr
+          td colspan="10"
+            | Click "Add" for create access rule
+
+if confirmDelete
+  modal-confirm ok="deleteConfirm" close="deleteCancel" title="Delete rule"
+    | You want to delete rule(s):
+    ul
+      each model in confirmDelete
+        li id: #{model.id}, ip: #{model.ip}
+    br
+    | Are you sure?
+
+

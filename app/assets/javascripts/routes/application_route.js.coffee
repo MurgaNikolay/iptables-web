@@ -1,1 +1,3 @@
-Access.ApplicationRoute = Ember.Route.extend(Access.ApplicationRouteMixin)
+Access.ApplicationRoute = Ember.Route.extend(
+  Access.ApplicationSessionMixin
+)

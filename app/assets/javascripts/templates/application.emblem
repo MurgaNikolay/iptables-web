@@ -1,0 +1,40 @@
+if current_user
+  nav.navbar.navbar-default role="navigation"
+    .container-fluid
+      .navbar-header
+        a.navbar-brand href="#" IPTables
+      .col-md-5
+        ul.nav.navbar-nav
+          link-to "nodes" tagName="li"
+            a href="#" Nodes
+          link-to "groups" tagName="li"
+            a href="#" Groups
+
+      .profile-info
+        .pull-right
+          a href=current_user.profile
+            strong=current_user.name
+            br
+            = current_user.email
+          br
+          a href="#" click="logout" Sign out
+        a href=current_user.profile
+          img.pull-right.img-polaroid src=current_user.image
+        .clearfix
+
+ol.breadcrumb
+  li
+    a href="#/" Index
+  each breadcrumbs
+    li
+    li class=active
+      if model
+        link-to route model.id
+          i class=':fa icon'
+          = name
+      else
+        link-to route
+          i class=':fa icon'
+          = name
+== outlet
+== outlet modal

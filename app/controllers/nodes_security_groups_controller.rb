@@ -29,11 +29,17 @@ class NodesSecurityGroupsController < ApplicationController
   end
 
   def create
-    link = NodesSecurityGroup.create(create_params)
-    if link.save
-      redirect_to nodes_security_group_url(link)
-    else
-      render json: {errors: 'error'}, status: 400
+    node = Node.find(create_params[:node_id])
+    group = SecurityGroup.find(create_params[:security_group_id])
+    respond_to do |format|
+      node.security_groups.push(group)
+      if node.save
+        # format.html { redirect_to group.nodes, notice: 'Comment was successfully created.' }
+        format.json { render json: node, status: :created, location: node }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: {errors: link.errors.messages}, status: :unprocessable_entity }
+      end
     end
   end
 

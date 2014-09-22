@@ -1,0 +1,42 @@
+h2 Groups
+table.table.table-hover
+  tr
+    th.col-md-1 ID
+    th.col-md-10 Group Name
+    th.col-md-1
+      a.glyphicon.glyphicon-plus click="createGroup" href="#" title="Create security group"
+
+  each group in controller
+    // link-to 'groups.group' group tagName="tr" class="clickable"
+    tr
+      if group.editMode
+        td
+          group.id
+        td = input enter="saveGroup" class="form-control" type="text" value=currentGroup.name
+        td
+          a.glyphicon.glyphicon-ok href="#" click="saveGroup" title="Save Group"
+          a.glyphicon.glyphicon-remove href="#" click="cancelGroup" title="Cancel"
+      else
+        link-to 'groups.group' group tagName="td" class="clickable"
+          group.id
+        link-to 'groups.group' group tagName="td" class="clickable"
+          group.name
+        td
+          a.glyphicon.glyphicon-edit click="editGroup group" href="#" title="Edit group"
+          a.glyphicon.glyphicon-remove click="deleteGroup group" href="#" title="Delete group"
+  else
+    tr
+      td colspan="3"
+        | Group not found. Use add for add group.
+
+  if createMode
+    tr
+      td
+      td = input enter="saveGroup" class="form-control" value=groupName type="text"
+      td
+        a.glyphicon.glyphicon-ok href="#" click="saveGroup" title="Save Group"
+        a.glyphicon.glyphicon-remove href="#" click="cancelGroup" title="Cancel"
+
+if modelForDelete
+  modal-confirm ok="confirmOk" close="confirmClose" title="Delete group"
+    | You want to delete node "#{modelForDelete.name}". Are you sure?

@@ -1,0 +1,5 @@
+div.alert.alert-warning
+  | You need login for access.
+  br
+  | Note: You can only log in using your R&R account.
+a.btn.btn-primary href="/auth/google_oauth2" target="_blank" Login

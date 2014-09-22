@@ -1,0 +1,16 @@
+default: &default
+  google_client_id: GOOGLE_CLIENT_ID
+  google_client_secret: GOOGLE_CLIENT_SECRET
+  google_domains:
+    - domain1.com
+    - domain2.com
+  acl:
+    - user1@domain1.com
+    - user2@domain1.com
+    - user3@domain1.com
+
+development:
+  <<: *default
+
+production:
+  <<: *default

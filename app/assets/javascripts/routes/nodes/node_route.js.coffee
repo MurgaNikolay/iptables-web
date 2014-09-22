@@ -5,6 +5,9 @@ Access.NodesNodeRoute = Ember.Route.extend
     @store.find('node', params.node_id)
 
   actions:
+    refreshNode:->
+      console.log('refresh')
+      @refresh()
     goBack: ->
       @transitionTo('users');
 

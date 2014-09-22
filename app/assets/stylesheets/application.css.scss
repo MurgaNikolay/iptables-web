@@ -89,32 +89,57 @@ div.jGrowl .jGrowl-notification.info {
 input.invalid {
     border: 1px solid red !important;
 }
-/*input.ng-valid {*/
-    /*border: 1px solid green !important;*/
-/*}*/
 
-.access .table > thead > tr > th,
-.access .table > thead > tr > td,
-.access .table > tbody > tr > th,
-.access .table > tbody > tr > td,
-.access .table > tfoot > tr > th,
-.access .table > tfoot > tr > td
-{
-  padding: 1px 8px;
+.ember-application .control {
+  margin-right: 5px;
 }
 
-.form-control {
-  height: 24px;
+.saving td {
+  border: 1px border red !important;
+}
+
+.ajax_loader {
+  display: inline-block;
+  visibility: hidden;
+  width: 16px;
+  height: 16px;
+  background-image: url(ajax-loader.gif);
+}
+
+.loading .ajax_loader{
+  visibility: visible;
+}
+
+.pull-right .control {
+  margin-left: 2px;
+}
+
+.access-rules-form .form-control {
   padding: 1px 4px;
+  height: 22px;
+  line-height: 22px;
 }
 
-.form-control.small {
-  width: 150px;
+.no_selection {
+  -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+  -moz-user-select: none; /* mozilla browsers */
+  -khtml-user-select: none; /* webkit (konqueror) browsers */
+  -ms-user-select: none; /* IE10+ */
 }
 
-.form-control.v-small {
-  width:50px;
-}
+
+//.form-control {
+//  height: 24px;
+//  padding: 1px 4px;
+//}
+//
+//.form-control.small {
+//  width: 150px;
+//}
+//
+//.form-control.v-small {
+//  width:50px;
+//}
 
 .container {
   min-width: 800px;
@@ -124,8 +149,7 @@ input.invalid {
   text-align: right;
 }
 
-.row-inner {
- /* padding-left: 8px; */
+.controls {
   padding-right: 8px;
 }
 
@@ -140,6 +164,25 @@ input.invalid {
 .clickable {
   cursor: pointer;
 }
+
+.inline-list, .inline-list li {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.separated-list li:after {
+  content: ', '
+}
+
+.separated-list li:last-of-type:after {
+  content:''
+}
+
+//loader
+
+
 
 
 

@@ -1,5 +1,6 @@
 
-Access.HasAccessRulesEditableMixin = Ember.Mixin.create({
+Access.HasAccessRulesEditableMixin = Ember.Mixin.create(
+  {
   protocols: [
     {label: 'ALL', value: 'all'},
     {label: 'TCP', value: 'tcp'},
@@ -13,7 +14,6 @@ Access.HasAccessRulesEditableMixin = Ember.Mixin.create({
       rule.deleteRecord()
       rule.save().then =>
         @get('model').get('accessRules').removeObject(rule)
-
     addRule: ->
       @set('addRule', true)
     cancelRule: ->
@@ -25,6 +25,7 @@ Access.HasAccessRulesEditableMixin = Ember.Mixin.create({
         port: @get('rule_port'),
         description: @get('rule_description')
       });
+
       @get('model').get('accessRules').pushObject(rule)
       @get('model').save().then =>
         @get('model').reload()

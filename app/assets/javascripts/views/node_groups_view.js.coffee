@@ -1,3 +1,3 @@
 
-Access.NodeGroupsView = Ember.View.extend
-  templateName: 'node_groups'
+Access.NodesNodeGroupsView = Ember.View.extend
+  templateName: 'nodes/node_groups'

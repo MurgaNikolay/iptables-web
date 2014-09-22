@@ -2,7 +2,7 @@ class AccessRulesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    render json: AccessRule.all
+    render json: find_access_rulable.access_rules
   end
 
   def show
@@ -21,28 +21,44 @@ class AccessRulesController < ApplicationController
   end
 
   def create
-    rule = AccessRule.new(user_params)
-    # redirect_to rule
-    if rule.save
-       redirect_to access_rule_url(rule)
+    access_rule = params[:id] ? AccessRule.find(params[:id]) : AccessRule.new
+    access_rule.assign_attributes(access_rule_params)
+
+    respond_to do |format|
+      if access_rule.save
+        format.html { redirect_to access_rule, notice: 'Comment was successfully created.' }
+        format.json { render json: access_rule, status: :created, location: access_rule }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: {errors: access_rule.errors.messages}, status: :unprocessable_entity }
+      end
     end
-    # else
-    #   This line overrides the default rendering behavior, which
-    #   would have been to render the "create" view.
-      # render json: {errors: 'error'}, status: 400
-    # end
-
-
-    # result = AccessRule.create_by_params(params.merge({user: current_user, request: request}))
-    # if result.is_a?(Hash)
-    #   render json: {errors: result}, status: 400
-    # else
-    #   render json: {ok: '1'}, status: 200
-    # end
   end
 
+  alias_method :update, :create
+
   private
-  def user_params
-    params.require(:access_rule).permit(:protocol, :ip, :port, :description)
+  def access_rule_params
+    params.require(:access_rule).permit(:protocol, :ip, :port, :description, :node_id, :security_group_id, :access_rulable_id, :access_rulable_type)
+  end
+
+  def parent
+    if params[:node_id]
+      return Node.find(params[:node_id])
+    end
+
+    if params[:security_group]
+      return SecurityGroup.find(params[:security_group])
+    end
+  end
+
+
+  def find_access_rulable
+    params.each do |name, value|
+      if name =~ /(.+)_id$/
+        return $1.classify.constantize.find(value)
+      end
+    end
+    nil
   end
 end

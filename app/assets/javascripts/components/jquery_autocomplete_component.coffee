@@ -1,13 +1,12 @@
-Access.JqueryAutocompleteComponent = Ember.Component.extend(
-  tagName: "input"
-#  attributeBindings: ["placeholder"]
+Access.JqueryAutocompleteComponent = Ember.TextField.extend(
   didInsertElement: ->
-    element = @$().autocomplete(
+    @$().autocomplete(
       source: @get('source')
       minLength: @get('minLength')
       messages:
         noResults: '',
         results: ->
+          ''
       select: (event, ui) =>
         @sendAction('action', @get('action'), ui.item) if ui.item.label
         return

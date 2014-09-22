@@ -1,7 +1,10 @@
 class Node < ActiveRecord::Base
   has_many :ips, :class_name => 'NodeIp'
   has_and_belongs_to_many :security_groups
-  has_and_belongs_to_many :access_rules
+  has_many :access_rules, as: :access_rulable
+
+  #has_and_belongs_to_many :security_groups
+  #has_and_belongs_to_many :access_rules
   # self.include_root_in_json = true
 
 
