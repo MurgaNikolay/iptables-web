@@ -8,8 +8,6 @@ module Api
       current_node.hostname = update_params[:hostname].to_s.strip
       current_node.ips.map(&:destroy)
       current_node.last_access = DateTime.now
-      puts params
-      puts update_params
       update_params[:ips].each do |iface|
         current_node.ips.push(NodeIp.create(iface))
       end
@@ -23,6 +21,10 @@ module Api
     private
     def update_params
       params.require(:node).permit(:hostname, :ips => [:ip,:interface,:netmask])
+    end
+
+    def node_params
+      params.require(:node).permit(:name)
     end
   end
 end

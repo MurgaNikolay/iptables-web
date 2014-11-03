@@ -38,7 +38,8 @@ Access::Application.routes.draw do
 
   namespace :api do
     resources :access_rules, only: [:index]
-    resources :nodes, only: [:show, :update]
+    resources :nodes, only: [:show, :update, :create]
+    post '/registration', to: 'registration#create'
   end
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
