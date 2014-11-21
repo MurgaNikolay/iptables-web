@@ -6,7 +6,8 @@ class Node < ActiveRecord::Base
   #has_and_belongs_to_many :security_groups
   #has_and_belongs_to_many :access_rules
   # self.include_root_in_json = true
-  validates_presence_of :name
+  validates :name, presence: true
+  validates :name, uniqueness: true
 
   def full_access_rules
     access_rules = Array(self.access_rules)
