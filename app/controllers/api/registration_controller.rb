@@ -10,7 +10,7 @@ module Api
     end
 
     def create
-      node = Node.create(node_params)
+      node = Node.find_or_create_by(name: node_params[:node][:name])
       if node.save
         render json: node, status: :ok, serializer: Api::NodeSerializer
       else
