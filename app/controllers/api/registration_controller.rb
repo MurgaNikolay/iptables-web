@@ -5,9 +5,8 @@ module Api
     end
 
     def current_user
-      if Settings['api']['token'] == request.headers['X-Authentication-Token']
-        User.find_by(email: Settings['api']['user'])
-      end
+      user = User.find_by(access_token: request.headers['X-Authentication-Key'])
+      user if user.access_token == request.headers['X-Authentication-Token']
     end
 
     def create

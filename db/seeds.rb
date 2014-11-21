@@ -6,25 +6,24 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-ar1 =  AccessRule.create(protocol: 'udp', port: 22, ip: '0.0.0.0')
-puts ar1.errors.inspect
-ar2 =  AccessRule.create(protocol: 'tcp', port: 9200, ip: '0.0.0.0')
-ar3 =  AccessRule.create(protocol: 'tcp', port: 1253, ip: '0.0.0.0')
+# token: iTMW5W6629i6D61wPSfUE65oZUcViyO8
+# user: nikolay.m@randrmusic.com
+user = User.find_by(access_token: Settings.api.token)
+if user && user.email != Settings.api.user
+  user.access_token = nil
+  user.access_key = nil
+  user.save
+  user = nil
+end
 
-default_sg = SecurityGroup.create(name: 'Default')
-default_sg.access_rules << ar1
-default_sg.save
-
-default_sg2 = SecurityGroup.create(name: 'Elasticsearch')
-default_sg2.access_rules << ar2
-default_sg2.save
-
-node = Node.create(hostname: 'localhost', description: '')
-node.security_groups << default_sg
-node.access_rules << ar3
-node.save
-
-
-node = Node.create(hostname: 'qa.vocvox.com', description: '')
-node.security_groups << default_sg2
-node.save
+user = User.find_by(email: Settings.api.user)
+unless user
+  user = User.create({
+      name: 'System user',
+      email: Settings.api.user,
+      internal: true
+    })
+end
+user.access_token = Settings.api.token
+user.access_key = Settings.api.key
+user.save

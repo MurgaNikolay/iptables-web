@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029135455) do
+ActiveRecord::Schema.define(version: 20141121201152) do
 
   create_table "access_rules", force: true do |t|
     t.string   "protocol"
@@ -60,16 +60,20 @@ ActiveRecord::Schema.define(version: 20141029135455) do
   create_table "users", force: true do |t|
     t.string   "name",                        null: false
     t.string   "email",                       null: false
-    t.string   "image",                       null: false
-    t.string   "profile",                     null: false
+    t.string   "image"
+    t.string   "profile"
     t.string   "uid",              limit: 25
     t.string   "provider",         limit: 20
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "internal"
+    t.string   "access_key"
+    t.string   "access_token"
   end
 
+  add_index "users", ["access_key"], name: "index_users_on_access_key", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true, using: :btree
 
