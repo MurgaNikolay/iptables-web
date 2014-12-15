@@ -31,6 +31,7 @@ class AccessRule < ActiveRecord::Base
   }
 
   def port=(value)
+    return if port.to_s.empty?
     PORTS.each do |service, port|
       value.gsub!(service.to_s, port.to_s)
     end
