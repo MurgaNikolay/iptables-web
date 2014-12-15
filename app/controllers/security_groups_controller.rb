@@ -10,7 +10,7 @@ class SecurityGroupsController < ApplicationController
           node = Node.find(params[:node])
           query = query.where('id NOT IN (?)', node.security_groups.map(&:id).join(',')) if node.security_groups.size() > 0
         rescue
-
+          #nothing
         end
       end
       render json: query.map(&:attributes)
@@ -83,7 +83,7 @@ class SecurityGroupsController < ApplicationController
         return @context ||= $1.classify.constantize.find(value).security_groups
       end
     end
-    Node
+    SecurityGroup
   end
 
 end
