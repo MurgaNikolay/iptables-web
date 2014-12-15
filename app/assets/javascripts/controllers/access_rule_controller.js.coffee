@@ -5,7 +5,7 @@ Access.AccessRuleController = Ember.ObjectController.extend(
 #    @_super()
 
   protocols: [
-#    {label: 'ALL', value: 'all'},
+    {label: 'ALL', value: 'all'},
     {label: 'TCP', value: 'tcp'},
     {label: 'UDP', value: 'udp'},
 #    {label: 'ICMP', value: 'icmp'}
