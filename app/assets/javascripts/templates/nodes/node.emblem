@@ -9,13 +9,15 @@ table.table.table-bordered
     td
       code.auto_selectable
         = token
+      | &nbsp;
       link-to "How to install?" 'nodes.install' model
   tr
     td Ips
     td
       each ip in ips
         code.auto_selectable
-          = ips
+          = ip
+        | &nbsp;
   tr
     td Last connected at
     td
