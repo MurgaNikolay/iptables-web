@@ -20,6 +20,7 @@ Access.AccessRuleController = Ember.ObjectController.extend(
     save: ->
       @get('model').save().then (=>
         @set('editMode', false)
+        @set('checked', false)
         return
       ), ((response)=>
         return false
