@@ -24,7 +24,7 @@ module Api
         :name,
         :description,
         security_groups: [],
-        groups_access_rules: [:group, :ip, :description, :port],
+        groups_access_rules: [:group, :port, :description],
         access_rules: [:ip, :description, :port]
       )
     end

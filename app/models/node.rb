@@ -23,7 +23,7 @@ class Node < ActiveRecord::Base
     node = find_by(name: params['name'])
     unless node
       node = Node.create(name: params['name'], description: params[:description])
-      params[:access_rules].each do |rule|
+      Array(params[:access_rules]).each do |rule|
         node.access_rules.create({
             protocol: rule[:protocol] || 'all',
             ip: rule[:ip] || node.name,
@@ -32,12 +32,12 @@ class Node < ActiveRecord::Base
           })
       end
       # Allow for groups
-      params[:groups_access_rules].each do |rule|
+      Array(params[:groups_access_rules]).each do |rule|
         group = SecurityGroup.find_by_name_or_id(rule['group'])
         if group
           group.access_rules.create({
               protocol: 'all',
-              ip: rule[:ip] || node.name,
+              ip: node.name,
               port: rule[:port] || nil,
               description: rule[:description] || node.name
             })
@@ -46,7 +46,7 @@ class Node < ActiveRecord::Base
       end
     end
 
-    params['security_groups'].map do |group|
+    Array(params[:security_groups]).map do |group|
       group = SecurityGroup.find_by_name_or_id(group)
       node.security_groups << group if group
     end
