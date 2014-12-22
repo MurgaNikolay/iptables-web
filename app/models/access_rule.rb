@@ -31,10 +31,7 @@ class AccessRule < ActiveRecord::Base
   }
 
   def port=(value)
-    PORTS.each do |service, port|
-      value.gsub!(service.to_s, port.to_s)
-    end if value || !port.to_s.empty?
-
+    value = replace_ports(value) if value && !value.to_s.empty?
     super(value)
   end
 
@@ -90,5 +87,13 @@ class AccessRule < ActiveRecord::Base
     node = Node.find_by(name: ip)
     return node.ips.map(&:ip) if node && node.ips.size > 0
     Resolv.getaddresses(ip)
+  end
+
+  def replace_ports(value)
+    value = value.to_s
+    PORTS.each do |service, port|
+      value.gsub!(service.to_s, port.to_s)
+    end
+    value
   end
 end

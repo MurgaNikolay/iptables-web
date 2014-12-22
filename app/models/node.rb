@@ -18,4 +18,38 @@ class Node < ActiveRecord::Base
     params[:token] = Digest::MD5.hexdigest(SecureRandom.urlsafe_base64(100, false)).scan(/.{8}/).join('-') unless params[:token]
     super(params)
   end
+
+  def self.register(params)
+    node = find_by(name: params['name'])
+    unless node
+      node = Node.create(name: params['name'], description: params[:description])
+      params[:access_rules].each do |rule|
+        node.access_rules.create({
+            protocol: rule[:protocol] || 'all',
+            ip: rule[:ip] || node.name,
+            port: rule[:port] || nil,
+            description: rule[:description] || node.name
+          })
+      end
+      # Allow for groups
+      params[:groups_access_rules].each do |rule|
+        group = SecurityGroup.find_by_name_or_id(rule['group'])
+        if group
+          group.access_rules.create({
+              protocol: 'all',
+              ip: rule[:ip] || node.name,
+              port: rule[:port] || nil,
+              description: rule[:description] || node.name
+            })
+          group.save
+        end
+      end
+    end
+
+    params['security_groups'].map do |group|
+      group = SecurityGroup.find_by_name_or_id(group)
+      node.security_groups << group if group
+    end
+    node
+  end
 end

@@ -1,6 +1,7 @@
 module Api
   class BaseController < ApplicationController
     skip_before_action :verify_authenticity_token
+
     def check_authentication
       _access_denied unless current_node
     end

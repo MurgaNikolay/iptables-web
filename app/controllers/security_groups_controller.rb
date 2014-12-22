@@ -20,8 +20,6 @@ class SecurityGroupsController < ApplicationController
   end
 
   def show
-    puts '---------------------'
-    puts SecurityGroup.find(params[:id]).access_rules.inspect
     render json: SecurityGroup.find(params[:id])
   end
 
@@ -85,5 +83,4 @@ class SecurityGroupsController < ApplicationController
     end
     SecurityGroup
   end
-
 end

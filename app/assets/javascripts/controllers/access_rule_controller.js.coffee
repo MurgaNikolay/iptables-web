@@ -7,8 +7,7 @@ Access.AccessRuleController = Ember.ObjectController.extend(
   protocols: [
     {label: 'ALL', value: 'all'},
     {label: 'TCP', value: 'tcp'},
-    {label: 'UDP', value: 'udp'},
-#    {label: 'ICMP', value: 'icmp'}
+    {label: 'UDP', value: 'udp'}
   ],
 
   isEditing: (->
