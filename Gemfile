@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.2'
+gem 'rails', '~> 4.2'
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -56,7 +56,7 @@ gem 'ember-rails'
 gem 'emblem-rails'
 gem 'ember-source', '1.5.0'
 gem 'momentjs-rails'
-
+gem "active_model_serializers"
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
 

@@ -1,4 +1,5 @@
 class Node < ActiveRecord::Base
+
   has_many :ips, :class_name => 'NodeIp'
   has_and_belongs_to_many :security_groups
   has_many :access_rules, as: :access_rulable

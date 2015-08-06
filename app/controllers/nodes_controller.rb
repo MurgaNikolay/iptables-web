@@ -2,6 +2,7 @@ class NodesController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
+
     if params[:term]
       query = Node.joins('LEFT OUTER JOIN node_ips ON nodes.id = node_ips.node_id')
       .where('name LIKE ? OR hostname LIKE ? OR ip LIKE ?',

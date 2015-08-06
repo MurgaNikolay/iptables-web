@@ -1,6 +1,9 @@
 class NodeSerializer < ActiveModel::Serializer
+
   include Rails.application.routes.url_helpers
+
   embed :ids, include: true
+
   attributes :id, :name, :hostname,
     :description, :ips, :created_at,
     :updated_at, :last_access,
