@@ -9,4 +9,6 @@ Access.Node = Access.AccessRulable.extend
   updatedAt: DS.attr('date'),
   lastAccess: DS.attr('date'),
   token: DS.attr('string'),
+  report: DS.attr('string'),
+  has_errors: DS.attr('boolean'),
   securityGroups: DS.hasMany('securityGroup', async: true)

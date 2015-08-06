@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141121213751) do
+ActiveRecord::Schema.define(version: 20150806133916) do
 
   create_table "access_rules", force: true do |t|
     t.string   "protocol"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20141121213751) do
     t.datetime "last_access"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "has_errors"
+    t.text     "report"
   end
 
   add_index "nodes", ["name"], name: "index_nodes_on_name", unique: true, using: :btree

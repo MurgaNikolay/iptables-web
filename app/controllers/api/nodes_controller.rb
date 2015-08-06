@@ -1,26 +1,32 @@
 module Api
-  class  NodesController < Api::BaseController
+  class NodesController < Api::BaseController
     def show
       render json: current_node
     end
 
     def update
       current_node.hostname = update_params[:hostname].to_s.strip
-      current_node.ips.map(&:destroy)
       current_node.last_access = DateTime.now
-      update_params[:ips].each do |iface|
-        current_node.ips.push(NodeIp.create(iface))
+      current_node.report = update_params[:report]
+      current_node.has_errors = update_params[:has_errors]
+
+      if update_params[:ips].size > 0
+        current_node.ips.map(&:destroy)
+        update_params[:ips].each do |iface|
+          current_node.ips.push(NodeIp.create(iface))
+        end
       end
+
       if current_node.save
         render json: current_node, status: :ok
       else
-        render json: {errors: current_node.errors}, status: :unprocessable_entity
+        render json: { errors: current_node.errors }, status: :unprocessable_entity
       end
     end
 
     private
     def update_params
-      params.require(:node).permit(:hostname, :ips => [:ip,:interface,:netmask])
+      params.require(:node).permit(:hostname, :has_errors, :report, :ips => [:ip, :interface, :netmask])
     end
 
     def node_params

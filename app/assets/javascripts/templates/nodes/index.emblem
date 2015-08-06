@@ -11,7 +11,7 @@ table.table.table-hover
         a.glyphicon.glyphicon-plus click="createNode" href="#" title="Register new node"
 
     each node in controller
-      tr
+      tr class=node.has_errors:text-danger:
         if node.editMode
           td
             node.id
@@ -43,10 +43,8 @@ table.table.table-hover
     if createMode
       tr
         td
-        td
-          input enter="saveNode" class="form-control" value=nodeName type="text"
-        td
-          input enter="saveNode" class="form-control" value=nodeDescription type="text"
+        td = input enter="saveNode" class="form-control" value=nodeName type="text"
+        td = input enter="saveNode" class="form-control" value=nodeDescription type="text"
         td colspan="2"
         td
           a.glyphicon.glyphicon-ok href="#" click="saveNode" title="Add node"

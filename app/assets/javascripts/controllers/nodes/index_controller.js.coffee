@@ -3,6 +3,7 @@
 Access.NodesIndexController = Em.ArrayController.extend(
   sortProperties: ["id"]
   sortAscending: true
+
   actions:
     deleteNode: (node)->
       @set('modelForDelete', node)
@@ -38,6 +39,9 @@ Access.NodesIndexController = Em.ArrayController.extend(
       if currentNode = @get('currentNode')
         currentNode.set('editMode', false)
       @set('createMode', false)
+      @set('nodeName', '')
+      @set('nodeDescription', '')
+
   nodesCount: (->
     @get "model.length"
   ).property("@each")
