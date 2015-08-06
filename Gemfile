@@ -55,6 +55,7 @@ gem 'rest_client'
 gem 'ember-rails'
 gem 'emblem-rails'
 gem 'ember-source', '1.5.0'
+gem 'momentjs-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
