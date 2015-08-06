@@ -1,5 +1,6 @@
 #= require jquery
 #= require jquery-ui
+#= require moment
 #= require handlebars
 #= require ember
 #= require bootstrap

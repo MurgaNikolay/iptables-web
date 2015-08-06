@@ -22,7 +22,9 @@ table.table.table-bordered
     td Last connected at
     td
       if lastAccess
-        date-format value=lastAccess format="YYYY-MM-DD HH:mm:ss"
+        = date-format value=lastAccessDate format="YYYY-MM-DD HH:mm:ss"
+        span class=expired:text-danger-light:text-success-light
+          '  ( #{expiredOffset} )
       else
         span.text-danger No access
   tr
@@ -31,7 +33,7 @@ table.table.table-bordered
   tr
     td Report
     td class=has_errors:text-danger:
-     = report
+     = nl2br report
 h3 Inbound requests are allowed from:
 /h4 Access rules:
 render "accessRules" accessRules
