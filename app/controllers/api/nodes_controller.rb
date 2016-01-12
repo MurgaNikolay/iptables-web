@@ -5,6 +5,7 @@ module Api
     end
 
     def update
+      logger.debug("[Handshake][#{update_params[:hostname]}] #{update_params.inspect}")
       current_node.hostname = update_params[:hostname].to_s.strip
       current_node.last_access = DateTime.now
       current_node.report = update_params[:report]
