@@ -42,7 +42,7 @@ group :development do
   gem 'capistrano'
 end
 
-gem 'mysql2'
+gem 'mysql2', '0.3.18'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'bootstrap-sass', '~> 3.1.1'

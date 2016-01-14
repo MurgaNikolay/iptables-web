@@ -15,6 +15,27 @@ class Node < ActiveRecord::Base
     access_rules.concat(security_groups.map(&:access_rules).flatten)
   end
 
+  def update_ips(ifaces)
+    current_ifaces = []
+    ips.reload
+    ifaces.each do |iface|
+      node_ip = NodeIp.new(iface)
+      current_ifaces << node_ip
+      ip = ips.detect { |ip| ip == node_ip }
+      if ip
+        ip.ip = node_ip.ip
+        ip.save
+      else
+        ips << node_ip
+      end
+    end
+
+    ips.each do |ip|
+      ip.destroy unless current_ifaces.include?(ip)
+    end
+    true
+  end
+
   def self.create(params)
     params[:token] = Digest::MD5.hexdigest(SecureRandom.urlsafe_base64(100, false)).scan(/.{8}/).join('-') unless params[:token]
     super(params)
@@ -26,22 +47,22 @@ class Node < ActiveRecord::Base
       node = Node.create(name: params['name'], description: params[:description])
       Array(params[:access_rules]).each do |rule|
         node.access_rules.create({
-            protocol: rule[:protocol] || 'all',
-            ip: rule[:ip] || node.name,
-            port: rule[:port] || nil,
-            description: rule[:description] || node.name
-          })
+          protocol: rule[:protocol] || 'all',
+          ip: rule[:ip] || node.name,
+          port: rule[:port] || nil,
+          description: rule[:description] || node.name
+        })
       end
       # Allow for groups
       Array(params[:groups_access_rules]).each do |rule|
         group = SecurityGroup.find_by_name_or_id(rule['group'])
         if group
           group.access_rules.create({
-              protocol: 'all',
-              ip: node.name,
-              port: rule[:port] || nil,
-              description: rule[:description] || node.name
-            })
+            protocol: 'all',
+            ip: node.name,
+            port: rule[:port] || nil,
+            description: rule[:description] || node.name
+          })
           group.save
         end
       end
